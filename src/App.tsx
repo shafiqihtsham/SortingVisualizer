@@ -1,16 +1,29 @@
+import { useState } from "react";
 import Header from "./components/Header";
 import SortingVisualizer from "./components/SortingVisualizer";
+import GraphsContext from "./context/GraphsContext";
 
 function App() {
+  const [graphSettings, setGraphSettings] = useState({
+    algorithm: "bubble",
+    numBars: 25,
+    speed: 5,
+    sort: false,
+    shuffle: false,
+  });
+
+  const value = { graphSettings, setGraphSettings };
+
   return (
     <>
-      <div className="">
-        <Header />
-        <section className=" w-full h-full pt-4 ">
-          <h1 className="text-xl p-4 my-4">Bubble Sort</h1>
-          <div><SortingVisualizer/></div>
-        </section>
-      </div>
+      <GraphsContext.Provider value={value}>
+        <main>
+          <Header />
+          <section>
+            <SortingVisualizer />
+          </section>
+        </main>
+      </GraphsContext.Provider>
     </>
   );
 }

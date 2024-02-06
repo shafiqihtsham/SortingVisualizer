@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-  @apply bg-[url("./public/minecraft-background.webp")] bg-cover min-h-screen min-w-full;
+  @apply bg-[url("/minecraft-background.webp")] bg-cover min-h-screen min-w-full;
 }
 
 @font-face {
@@ -21,4 +21,16 @@ html {
 
 .minecraft-btn:hover {
   outline: 2px solid white;
+}
+
+#container {
+  background: rgb(30, 21, 15);
+  background: linear-gradient(
+    90deg,
+    rgba(30, 21, 15, 1) 0%,
+    rgba(79, 55, 39, 1) 25%,
+    rgba(98, 68, 49, 1) 50%,
+    rgba(78, 55, 40, 1) 75%,
+    rgba(30, 21, 15, 1) 100%
+  );
 }

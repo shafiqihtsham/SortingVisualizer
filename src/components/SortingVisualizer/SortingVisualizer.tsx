@@ -1,8 +1,5 @@
 import { useState, useEffect, useContext } from "react";
 import { bubbleSort } from "../../SortingAlgorithms/BubbleSort";
-import GraphsContext from "../../context/GraphsContext";
-import { changeSettings } from "../../utils/modifySettings";
-import Settings from "../Settings";
 
 const NUM_BARS = {
   small: 50,
@@ -11,15 +8,17 @@ const NUM_BARS = {
 };
 
 const ARRAY_LIMIT = {
-  min: 1,
+  min: 10,
   max: 315,
 };
 
 const SortingVisualizer = () => {
   const [numberArray, setNumberArray] = useState<number[]>([]);
-  const [sorted, setSorted] = useState<boolean>(false);
-  const [speed, setSpeed] = useState<number>(5);
-  const { graphSettings, setGraphSettings } = useContext(GraphsContext);
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>("bubble");
+  const [speed, setSpeed] = useState<number>(30);
+  const [sorting, setSorting] = useState<boolean>(false);
+  const [shuffleDisabled, setShuffleDisabled] = useState<boolean>(false);
+  const [sortDisabled, setSortDisabled] = useState<boolean>(false);
 
   useEffect(() => {
     setNumberArray(randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max));
@@ -30,37 +29,30 @@ const SortingVisualizer = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [numberArray]);
 
-  useEffect(() => {
-    if (graphSettings.shuffle === true && graphSettings.sort === false) {
-      handleNewArray();
-    }
-
-    if (graphSettings.shuffle === false && graphSettings.sort === true) {
-      handleSort();
-    }
-  }, [graphSettings.shuffle, graphSettings.sort]);
+  const handleAlgorithmChange = (event: any) => {
+    setSelectedAlgorithm(event.target.value);
+  };
 
   const handleSort = () => {
+    setSorting(true);
+    // need to run this function when sort is true and i need to disable shuffle and set it to false;
     const copy = [...numberArray];
     const swaps = bubbleSort(copy);
     animateBubbleSort(swaps);
-    changeSettings(graphSettings, setGraphSettings, {
-      sort: true,
-      shuffle:false,
-    });
   };
 
   const handleNewArray = () => {
     newArray();
-    changeSettings(graphSettings, setGraphSettings, {
-      shuffle: true,
-      sort:false,
-    });
   };
 
   const animateBubbleSort = (swaps: number[][]) => {
+    setSortDisabled(true);
+    setShuffleDisabled(true);
     if (swaps.length == 0) {
       showBars();
+      setShuffleDisabled(false);
+      setSortDisabled(false);
+      setSorting(false);
       return;
     }
     const [i, j] = swaps.shift() ?? [0, 0];
@@ -70,8 +62,6 @@ const SortingVisualizer = () => {
     setTimeout(function () {
       animateBubbleSort(swaps);
     }, speed);
-
-    setSorted(true);
   };
 
   const newArray = () => {
@@ -88,34 +78,57 @@ const SortingVisualizer = () => {
     for (let i = 0; i < numberArray.length; i++) {
       const bar = document.createElement("div");
       bar.style.height = `${numberArray[i]}px`;
-      bar.style.width = "3px";
+      bar.style.width = "4px";
       bar.classList.add("bg-red-500");
       bar.classList.add("inline-block");
-      bar.classList.add("m-0");
-      bar.classList.add("bg-gradient-to-t");
+      bar.classList.add("mx-[1px]");
+      bar.classList.add("bg-gradient-to-b");
       bar.classList.add("from-yellow-300");
       bar.classList.add("to-transparent");
       if (indices && indices.includes(i)) {
-        setSorted(false);
-        bar.style.backgroundColor = "yellow";
-      } else if (!indices && sorted === true) {
         bar.style.backgroundColor = "green";
+      } else if (!indices) {
+        bar.style.backgroundColor = "red";
       }
       container.appendChild(bar);
-      setSorted(true);
     }
   }
 
   return (
     <>
       <section>
-        <Settings />
+        <div className="flex flex-wrap justify-evenly my-5 mb-10 w-full h-full">
+          <button
+            className="minecraft-btn sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4 disabled:cursor-not-allowed disabled:text-gray-400"
+            onClick={handleNewArray}
+            disabled={shuffleDisabled}
+          >
+            New
+          </button>
+          <select
+            value={selectedAlgorithm}
+            onChange={handleAlgorithmChange}
+            className="minecraft-btn  sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4"
+          >
+            <option value="bubble">Bubble Sort</option>
+            <option disabled={true} value="insertion">Insertion Sort</option>
+            <option disabled={true} value="merge">Merge Sort</option>
+            <option disabled={true} value="quicksort">Quicksort</option>
+          </select>
+          <button
+            className="minecraft-btn sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4 disabled:cursor-not-allowed disabled:text-gray-400"
+            onClick={handleSort}
+            disabled={sortDisabled}
+          >
+            Sort
+          </button>
+        </div>
       </section>
       <section>
         <div className="w-full flex justify-center">
           <div className="m-auto px-20 inline-block justify-center">
             <div
-              className="max-w-full flex items-end select-none rounded-lg px-4"
+              className="max-w-full flex items-end select-none rounded-lg"
               id="container"
               style={{ height: `${ARRAY_LIMIT.max}px` }}
             ></div>

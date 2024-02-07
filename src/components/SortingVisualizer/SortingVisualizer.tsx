@@ -5,6 +5,7 @@ const NUM_BARS = {
   small: 50,
   medium: 100,
   large: 200,
+  user: 0,
 };
 
 const ARRAY_LIMIT = {
@@ -15,10 +16,11 @@ const ARRAY_LIMIT = {
 const SortingVisualizer = () => {
   const [numberArray, setNumberArray] = useState<number[]>([]);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>("bubble");
-  const [speed, setSpeed] = useState<number>(30);
+  const [speed, setSpeed] = useState<number>(50);
   const [sorting, setSorting] = useState<boolean>(false);
   const [shuffleDisabled, setShuffleDisabled] = useState<boolean>(false);
   const [sortDisabled, setSortDisabled] = useState<boolean>(false);
+  
 
   useEffect(() => {
     setNumberArray(randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max));
@@ -94,6 +96,10 @@ const SortingVisualizer = () => {
     }
   }
 
+  const handleBarsChange = (event: any) => {
+    const invertedValue = parseInt(event.target.value);
+    setSpeed(100 - invertedValue);
+  }
   return (
     <>
       <section>
@@ -111,9 +117,15 @@ const SortingVisualizer = () => {
             className="minecraft-btn  sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4"
           >
             <option value="bubble">Bubble Sort</option>
-            <option disabled={true} value="insertion">Insertion Sort</option>
-            <option disabled={true} value="merge">Merge Sort</option>
-            <option disabled={true} value="quicksort">Quicksort</option>
+            <option disabled={true} value="insertion">
+              Insertion Sort
+            </option>
+            <option disabled={true} value="merge">
+              Merge Sort
+            </option>
+            <option disabled={true} value="quicksort">
+              Quicksort
+            </option>
           </select>
           <button
             className="minecraft-btn sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4 disabled:cursor-not-allowed disabled:text-gray-400"
@@ -126,13 +138,31 @@ const SortingVisualizer = () => {
       </section>
       <section>
         <div className="w-full flex justify-center">
-          <div className="m-auto px-20 inline-block justify-center">
+          <div className="m-auto inline-block justify-center">
             <div
               className="max-w-full flex items-end select-none rounded-lg"
               id="container"
               style={{ height: `${ARRAY_LIMIT.max}px` }}
             ></div>
           </div>
+        </div>
+      </section>
+      <section className="flex flex-row justify-center mt-8">
+        <input
+          type="range"
+          id="slider"
+          min={0}
+          max={100}
+          onChange={handleBarsChange}
+          className=" absolute h-[40px] w-64 disabled:cursor-not-allowed disabled:text-gray-400"
+        />
+        <div className="relative bottom-[-8px] select-none">
+          <label
+            htmlFor="slider"
+            className="font-[Minecraftia] text-white text-sm"
+          >
+            SPEED: {(speed - 100) * -1 === 100 ? "ULTRA FAST" : (speed - 100) * -1}
+          </label>
         </div>
       </section>
     </>

@@ -1,12 +1,7 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { bubbleSort } from "../../SortingAlgorithms/BubbleSort";
-
-const NUM_BARS = {
-  small: 50,
-  medium: 100,
-  large: 200,
-  user: 0,
-};
+import Slider from "../Slider/Slider";
+import Controls from "../Controls/Controls";
 
 const ARRAY_LIMIT = {
   min: 10,
@@ -17,13 +12,12 @@ const SortingVisualizer = () => {
   const [numberArray, setNumberArray] = useState<number[]>([]);
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>("bubble");
   const [speed, setSpeed] = useState<number>(50);
-  const [sorting, setSorting] = useState<boolean>(false);
   const [shuffleDisabled, setShuffleDisabled] = useState<boolean>(false);
   const [sortDisabled, setSortDisabled] = useState<boolean>(false);
-  
+  const [bars, setBars] = useState<number>(50);
 
   useEffect(() => {
-    setNumberArray(randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max));
+    setNumberArray(randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max, bars));
   }, []);
 
   useEffect(() => {
@@ -36,7 +30,6 @@ const SortingVisualizer = () => {
   };
 
   const handleSort = () => {
-    setSorting(true);
     // need to run this function when sort is true and i need to disable shuffle and set it to false;
     const copy = [...numberArray];
     const swaps = bubbleSort(copy);
@@ -54,7 +47,6 @@ const SortingVisualizer = () => {
       showBars();
       setShuffleDisabled(false);
       setSortDisabled(false);
-      setSorting(false);
       return;
     }
     const [i, j] = swaps.shift() ?? [0, 0];
@@ -67,7 +59,7 @@ const SortingVisualizer = () => {
   };
 
   const newArray = () => {
-    const newArray = randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max);
+    const newArray = randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max, bars);
     setNumberArray(newArray);
   };
 
@@ -80,12 +72,12 @@ const SortingVisualizer = () => {
     for (let i = 0; i < numberArray.length; i++) {
       const bar = document.createElement("div");
       bar.style.height = `${numberArray[i]}px`;
-      bar.style.width = "4px";
+      bar.style.width = "5px";
       bar.classList.add("bg-red-500");
       bar.classList.add("inline-block");
-      bar.classList.add("mx-[1px]");
+      bar.classList.add("mr-[1px]");
       bar.classList.add("bg-gradient-to-b");
-      bar.classList.add("from-yellow-300");
+      bar.classList.add("from-grne");
       bar.classList.add("to-transparent");
       if (indices && indices.includes(i)) {
         bar.style.backgroundColor = "green";
@@ -96,86 +88,70 @@ const SortingVisualizer = () => {
     }
   }
 
-  const handleBarsChange = (event: any) => {
+  const handleSpeedChange = (event: any) => {
     const invertedValue = parseInt(event.target.value);
     setSpeed(100 - invertedValue);
+  };
+
+  const handleBarsChange = () => {
+    let newBars;
+
+    if (bars >= 150) {
+      newBars = 50;
+    } else {
+      newBars = bars + 50;
+    }
+
+    const newArray = randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max, newBars);
+
+    setBars(newBars);
+    setNumberArray(newArray);
+  };
+
+  function randomIntArray(min: number, max: number, bars: number): number[] {
+    const array = [];
+    for (let i = 0; i < bars; i++) {
+      array.push(Math.floor(Math.random() * (max - min + 1) + min));
+    }
+
+    return array;
   }
+
   return (
     <>
       <section>
-        <div className="flex flex-wrap justify-evenly my-5 mb-10 w-full h-full">
-          <button
-            className="minecraft-btn sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4 disabled:cursor-not-allowed disabled:text-gray-400"
-            onClick={handleNewArray}
-            disabled={shuffleDisabled}
-          >
-            New
-          </button>
-          <select
-            value={selectedAlgorithm}
-            onChange={handleAlgorithmChange}
-            className="minecraft-btn  sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4"
-          >
-            <option value="bubble">Bubble Sort</option>
-            <option disabled={true} value="insertion">
-              Insertion Sort
-            </option>
-            <option disabled={true} value="merge">
-              Merge Sort
-            </option>
-            <option disabled={true} value="quicksort">
-              Quicksort
-            </option>
-          </select>
-          <button
-            className="minecraft-btn sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4 disabled:cursor-not-allowed disabled:text-gray-400"
-            onClick={handleSort}
-            disabled={sortDisabled}
-          >
-            Sort
-          </button>
-        </div>
+        <Controls
+          handleAlgorithmChange={handleAlgorithmChange}
+          handleNewArray={handleNewArray}
+          handleSort={handleSort}
+          selectedAlgorithm={selectedAlgorithm}
+          shuffleDisabled={shuffleDisabled}
+          sortDisabled={sortDisabled}
+        />
       </section>
       <section>
-        <div className="w-full flex justify-center">
+        <div className="w-full flex justify-center mb-8">
           <div className="m-auto inline-block justify-center">
             <div
-              className="max-w-full flex items-end select-none rounded-lg"
+              className="max-w-full flex items-end select-none border"
               id="container"
               style={{ height: `${ARRAY_LIMIT.max}px` }}
             ></div>
           </div>
         </div>
       </section>
-      <section className="flex flex-row justify-center mt-8">
-        <input
-          type="range"
-          id="slider"
-          min={0}
-          max={100}
-          onChange={handleBarsChange}
-          className=" absolute h-[40px] w-64 disabled:cursor-not-allowed disabled:text-gray-400"
-        />
-        <div className="relative bottom-[-8px] select-none">
-          <label
-            htmlFor="slider"
-            className="font-[Minecraftia] text-white text-sm"
-          >
-            SPEED: {(speed - 100) * -1 === 100 ? "ULTRA FAST" : (speed - 100) * -1}
-          </label>
-        </div>
+      <section className="flex gap-6 justify-evenly w-full h-full my-4">
+        <Slider handleSpeedChange={handleSpeedChange} speed={speed} />
+        <button
+          className="hidden sm:block minecraft-btn h-[40px] sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4 disabled:cursor-not-allowed disabled:text-gray-400"
+          onClick={handleBarsChange}
+          disabled={shuffleDisabled}
+        >
+          Bars: {bars}
+        </button>
       </section>
     </>
   );
 };
-
-function randomIntArray(min: number, max: number): number[] {
-  const array = [];
-  for (let i = 0; i < NUM_BARS.small; i++) {
-    array.push(Math.floor(Math.random() * (max - min + 1) + min));
-  }
-
-  return array;
-}
 
 export default SortingVisualizer;

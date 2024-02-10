@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { bubbleSort } from "../../SortingAlgorithms/BubbleSort";
 import Slider from "../Slider/Slider";
 import Controls from "../Controls/Controls";
+import { insertionSort } from "../../SortingAlgorithms/InsertionSort";
 
 const ARRAY_LIMIT = {
   min: 10,
@@ -32,7 +33,7 @@ const SortingVisualizer = () => {
   const handleSort = () => {
     // need to run this function when sort is true and i need to disable shuffle and set it to false;
     const copy = [...numberArray];
-    const swaps = bubbleSort(copy);
+    const swaps = selectedAlgorithm === "bubble" ? bubbleSort(copy) : insertionSort(copy); //yuck
     animateBubbleSort(swaps);
   };
 

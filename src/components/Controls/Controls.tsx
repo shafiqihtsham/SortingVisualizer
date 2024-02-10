@@ -23,7 +23,7 @@ const Controls = (props:ControlsProps) => {
             className="minecraft-btn  sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4"
           >
             <option value="bubble">Bubble Sort</option>
-            <option disabled={true} value="insertion">
+            <option value="insertion">
               Insertion Sort
             </option>
             <option disabled={true} value="merge">

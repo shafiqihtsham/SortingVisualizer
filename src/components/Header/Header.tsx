@@ -11,7 +11,7 @@ export default function Header() {
           className="absolute bottom-0 right-0 text-yellow-300 text-sm font-normal tracking-wide font-[Minecraftia] [text-shadow:_3px_3px_#3F3F00] -rotate-[25deg] "
         >
           <div className="animate-pop">
-            <strong className="">NOW WITH SOUND!</strong>
+            <strong className="">NOW WITHOUT SOUND!</strong>
           </div>
         </div>
       </header>

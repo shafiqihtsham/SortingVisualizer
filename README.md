@@ -1,15 +1,15 @@
 # Minecraft Themed Sorting Visualiser 
 
-# Current algroitms : 
+## Current algorithms : 
 
 - Bubble Sort
 - Insertion Sort
 
-# Todo : 
+## Todo : 
 
 - Merge Sort
 - Quicksort
 
-# Not to do: 
+## Not to do: 
 
 - Add sound (yuck)

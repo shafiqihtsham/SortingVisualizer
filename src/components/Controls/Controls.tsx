@@ -9,7 +9,7 @@ interface ControlsProps {
 
 const Controls = (props:ControlsProps) => {
     return (
-        <div className="flex flex-wrap justify-evenly my-5 mb-10 w-full h-full">
+        <div className="flex flex-wrap justify-center my-5 mb-10 w-full h-full gap-2">
           <button
             className="minecraft-btn sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4 disabled:cursor-not-allowed disabled:text-gray-400"
             onClick={props.handleNewArray}

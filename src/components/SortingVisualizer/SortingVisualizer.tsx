@@ -33,7 +33,8 @@ const SortingVisualizer = () => {
   const handleSort = () => {
     // need to run this function when sort is true and i need to disable shuffle and set it to false;
     const copy = [...numberArray];
-    const swaps = selectedAlgorithm === "bubble" ? bubbleSort(copy) : insertionSort(copy); //yuck
+    const swaps =
+      selectedAlgorithm === "bubble" ? bubbleSort(copy) : insertionSort(copy); //yuck
     animateBubbleSort(swaps);
   };
 
@@ -139,15 +140,17 @@ const SortingVisualizer = () => {
           </div>
         </div>
       </section>
-      <section className="flex gap-6 justify-evenly w-full h-full my-4">
-        <Slider handleSpeedChange={handleSpeedChange} speed={speed} />
+      <section className="flex flex-col gap-6 items-center mb-5">
         <button
-          className="hidden sm:block minecraft-btn h-[40px] sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4 disabled:cursor-not-allowed disabled:text-gray-400"
+          className="hidden sm:block minecraft-btn sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4 disabled:cursor-not-allowed disabled:text-gray-400"
           onClick={handleBarsChange}
           disabled={shuffleDisabled}
         >
           Bars: {bars}
         </button>
+        <div className="col-span-1">
+          <Slider handleSpeedChange={handleSpeedChange} speed={speed} />
+        </div>
       </section>
     </>
   );

@@ -3,7 +3,7 @@ import SortingVisualizer from "./components/SortingVisualizer";
 
 function App() {
   return (
-    <main>
+    <main className="max-w-[1440p]">
       <Header />
       <section>
         <SortingVisualizer />

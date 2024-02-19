@@ -77,9 +77,7 @@ const SortingVisualizer = () => {
       bar.classList.add("bg-red-500");
       bar.classList.add("inline-block");
       bar.classList.add("mr-[1px]");
-      bar.classList.add("bg-gradient-to-b");
-      bar.classList.add("from-grne");
-      bar.classList.add("to-transparent");
+      bar.classList.add("bg-green")
       if (indices && indices.includes(i)) {
         bar.style.backgroundColor = "green";
       } else if (!indices) {

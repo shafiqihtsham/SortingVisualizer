@@ -1,23 +1,29 @@
-// Display array bars
 export function displayArray(
   array: number[],
-  comparisons: number[] = [],
+  compared: number[] = [],
   sorted: number[] = [],
-  swapping: number[] = []
+  swapped: number[] = [],
+
 ) {
   const arrayDiv = document.getElementById("container");
-  arrayDiv!.innerHTML = "";
+  if (!arrayDiv) return;
+
+  const bars = arrayDiv.querySelectorAll(".bar");
   array.forEach((num, index) => {
-    const bar = document.createElement("div");
-    bar.className = "bar";
+    const bar = bars[index] as HTMLElement; // Get the existing bar element
+
+    // Update the height
     bar.style.height = `${num}px`;
-    if (comparisons.includes(index)) {
-      bar.style.backgroundColor = "red"; // Color for comparisons
+
+    // Update the background color based on the state
+    if (compared.includes(index)) {
+      bar.style.backgroundColor = "green"; // Color for comparisons
     } else if (sorted.includes(index)) {
-      bar.style.backgroundColor = "green"; // Color for sorted elements
-    } else if (swapping.includes(index)) {
-      bar.style.backgroundColor = "yellow"; // Color for elements being swapped
+      bar.style.backgroundColor = ""; // Color for sorted elements
+    } else if (swapped.includes(index)) {
+      bar.style.backgroundColor = "red"; // Color for elements being swapped
+    } else {
+      bar.style.backgroundColor = ""; // Reset background color if none of the conditions are met
     }
-    arrayDiv!.appendChild(bar);
   });
 }

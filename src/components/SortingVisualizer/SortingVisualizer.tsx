@@ -19,29 +19,26 @@ const SortingVisualizer = () => {
   const [speed, setSpeed] = useState<number>(50);
   const [shuffleDisabled, setShuffleDisabled] = useState<boolean>(false);
   const [sortDisabled, setSortDisabled] = useState<boolean>(false);
-  const [bars, setBars] = useState<number>(50);
+  const [bars, setBars] = useState<number>(10);
 
   const handleAlgorithmChange = (event: any) => {
     setSelectedAlgorithm(event.target.value);
   };
 
-  const handleSort = () => {
+  const handleSort = async () => {
     // need to run this function when sort is true and i need to disable shuffle and set it to false;
     const copy = [...numberArray];
-    const result = mergeSort(copy);
-    let swaps;
+
     switch (selectedAlgorithm) {
       case "bubble":
-        swaps = bubbleSort(copy);
-        animateBubbleSort(swaps);
+        await bubbleSort(copy);
         break;
       case "insertion":
-        swaps = insertionSort(copy);
-        animateBubbleSort(swaps);
+        await insertionSort(copy);
         break;
       case "merge":
-        swaps = mergeSort(copy);
-        console.log(result.swaps);
+        await mergeSort(copy, 0, copy.length - 1);
+        break;
     }
   };
 
@@ -123,7 +120,7 @@ const SortingVisualizer = () => {
                 <div
                   key={i}
                   style={{ height: `${num - 2}px` }}
-                  className="inline-block w-[5px] mr-[1px] bg-red-500"
+                  className="inline-block w-[20px] mr-[1px] bg-blue-500 bar"
                 ></div>
               ))}
             </div>

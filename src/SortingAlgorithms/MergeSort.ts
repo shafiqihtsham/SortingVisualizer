@@ -57,13 +57,13 @@ async function merge(
   }
 }
 
-async function mergeSort(
+export async function mergeSort(
   arr: number[],
   start: number,
   end: number
 ): Promise<void> {
   if (start < end) {
-    const mid = Math.floor(arr.length / 2);
+    const mid = Math.floor((start + end) / 2);
     await mergeSort(arr, start, mid);
     await mergeSort(arr, mid + 1, end);
     await merge(arr, start, mid, end);

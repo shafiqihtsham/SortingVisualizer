@@ -26,7 +26,7 @@ const Controls = (props:ControlsProps) => {
             <option value="insertion">
               Insertion Sort
             </option>
-            <option disabled={true} value="merge">
+            <option value="merge">
               Merge Sort
             </option>
             <option disabled={true} value="quicksort">

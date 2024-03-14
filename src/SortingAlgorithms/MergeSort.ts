@@ -1,26 +1,71 @@
-function merge(left:number[], right:number[]): number[] {
-    let sortedArr:any = [] // the sorted items will go here
-    while (left.length && right.length) {
-      // Insert the smallest item into sortedArr
-      if (left[0] < right[0]) {
-        sortedArr.push(left.shift())
-      } else {
-        sortedArr.push(right.shift())
-      }
+// function to generate array
+
+// function to map over array and display it.
+// changing colour depending if its comparison or swapping or sorted
+
+// merge sort recursive algorithm
+
+// mergesrt helper function
+
+//function to start sorting
+
+//function called sleep to delay execution, coould just use setTimeout instead
+
+import { displayArray } from "../utils/displayArray";
+import { sleep } from "../utils/sleep";
+
+async function merge(
+  array: number[],
+  start: number,
+  middle: number,
+  end: number
+): Promise<void> {
+  const leftArray: number[] = array.slice(start, middle + 1);
+  const rightArray: number[] = array.slice(middle + 1, end + 1);
+
+  let i: number = 0,
+    j: number = 0,
+    k: number = start;
+
+  while (i < leftArray.length && j < rightArray.length) {
+    if (leftArray[i] <= rightArray[j]) {
+      array[k] = leftArray[i];
+      i++;
+    } else {
+      array[k] = rightArray[j];
+      j++;
     }
-    // Use spread operators to create a new array, combining the three arrays
-    return [...sortedArr, ...left, ...right]
+    displayArray(array, [start + i, middle + 1 + j], [], [k]);
+    await sleep(100);
+    k++;
   }
 
-  function mergeSort(arr:number[]):any {
-    // Base case
-    if (arr.length <= 1) return arr
-    let mid = Math.floor(arr.length / 2)
-    // Recursive calls
-    let left = mergeSort(arr.slice(0, mid))
-    let right = mergeSort(arr.slice(mid))
-    return merge(left, right)
+  while (i < leftArray.length) {
+    array[k] = leftArray[i];
+    displayArray(array, [], [], [k]);
+    await sleep(500);
+    i++;
+    k++;
   }
 
+  while (j < rightArray.length) {
+    array[k] = rightArray[j];
+    displayArray(array, [], [], [k]);
+    await sleep(500);
+    j++;
+    k++;
+  }
+}
 
-export { mergeSort };
+async function mergeSort(
+  arr: number[],
+  start: number,
+  end: number
+): Promise<void> {
+  if (start < end) {
+    const mid = Math.floor(arr.length / 2);
+    await mergeSort(arr, start, mid);
+    await mergeSort(arr, mid + 1, end);
+    await merge(arr, start, mid, end);
+  }
+}

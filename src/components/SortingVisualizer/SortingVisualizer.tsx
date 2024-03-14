@@ -1,30 +1,25 @@
 import { useState, useEffect } from "react";
-import { bubbleSort } from "../../SortingAlgorithms/BubbleSort";
 import Slider from "../Slider/Slider";
 import Controls from "../Controls/Controls";
+import { bubbleSort } from "../../SortingAlgorithms/BubbleSort";
 import { insertionSort } from "../../SortingAlgorithms/InsertionSort";
+import { mergeSort } from "../../SortingAlgorithms/MergeSort";
 
 const ARRAY_LIMIT = {
   min: 10,
   max: 315,
+  length: 50,
 };
 
 const SortingVisualizer = () => {
-  const [numberArray, setNumberArray] = useState<number[]>([]);
+  const [numberArray, setNumberArray] = useState(() =>
+    randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max, ARRAY_LIMIT.length)
+  );
   const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>("bubble");
   const [speed, setSpeed] = useState<number>(50);
   const [shuffleDisabled, setShuffleDisabled] = useState<boolean>(false);
   const [sortDisabled, setSortDisabled] = useState<boolean>(false);
   const [bars, setBars] = useState<number>(50);
-
-  useEffect(() => {
-    setNumberArray(randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max, bars));
-  }, []);
-
-  useEffect(() => {
-    showBars();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [numberArray]);
 
   const handleAlgorithmChange = (event: any) => {
     setSelectedAlgorithm(event.target.value);
@@ -33,9 +28,21 @@ const SortingVisualizer = () => {
   const handleSort = () => {
     // need to run this function when sort is true and i need to disable shuffle and set it to false;
     const copy = [...numberArray];
-    const swaps =
-      selectedAlgorithm === "bubble" ? bubbleSort(copy) : insertionSort(copy); //yuck
-    animateBubbleSort(swaps);
+    const result = mergeSort(copy);
+    let swaps;
+    switch (selectedAlgorithm) {
+      case "bubble":
+        swaps = bubbleSort(copy);
+        animateBubbleSort(swaps);
+        break;
+      case "insertion":
+        swaps = insertionSort(copy);
+        animateBubbleSort(swaps);
+        break;
+      case "merge":
+        swaps = mergeSort(copy);
+        console.log(result.swaps);
+    }
   };
 
   const handleNewArray = () => {
@@ -46,7 +53,6 @@ const SortingVisualizer = () => {
     setSortDisabled(true);
     setShuffleDisabled(true);
     if (swaps.length == 0) {
-      showBars();
       setShuffleDisabled(false);
       setSortDisabled(false);
       return;
@@ -54,7 +60,6 @@ const SortingVisualizer = () => {
     const [i, j] = swaps.shift() ?? [0, 0];
 
     [numberArray[i], numberArray[j]] = [numberArray[j], numberArray[i]];
-    showBars([i, j]);
     setTimeout(function () {
       animateBubbleSort(swaps);
     }, speed);
@@ -64,29 +69,6 @@ const SortingVisualizer = () => {
     const newArray = randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max, bars);
     setNumberArray(newArray);
   };
-
-  function showBars(indices?: number[]) {
-    const container = document.getElementById("container");
-    if (!container) return;
-
-    container.innerHTML = "";
-
-    for (let i = 0; i < numberArray.length; i++) {
-      const bar = document.createElement("div");
-      bar.style.height = `${numberArray[i]}px`;
-      bar.style.width = "5px";
-      bar.classList.add("bg-red-500");
-      bar.classList.add("inline-block");
-      bar.classList.add("mr-[1px]");
-      bar.classList.add("bg-green")
-      if (indices && indices.includes(i)) {
-        bar.style.backgroundColor = "green";
-      } else if (!indices) {
-        bar.style.backgroundColor = "red";
-      }
-      container.appendChild(bar);
-    }
-  }
 
   const handleSpeedChange = (event: any) => {
     const invertedValue = parseInt(event.target.value);
@@ -136,7 +118,15 @@ const SortingVisualizer = () => {
               className="max-w-full flex items-end select-none border"
               id="container"
               style={{ height: `${ARRAY_LIMIT.max}px` }}
-            ></div>
+            >
+              {numberArray.map((num, i) => (
+                <div
+                  key={i}
+                  style={{ height: `${num - 2}px` }}
+                  className="inline-block w-[5px] mr-[1px] bg-red-500"
+                ></div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Slider from "../Slider/Slider";
 import Controls from "../Controls/Controls";
 import { bubbleSort } from "../../SortingAlgorithms/BubbleSort";
 import { insertionSort } from "../../SortingAlgorithms/InsertionSort";
 import { mergeSort } from "../../SortingAlgorithms/MergeSort";
+import { clearMemoized } from "../../utils/displayBubbleSort";
 
 const ARRAY_LIMIT = {
   min: 10,
@@ -21,7 +22,9 @@ const SortingVisualizer = () => {
   const [sortDisabled, setSortDisabled] = useState<boolean>(false);
   const [bars, setBars] = useState<number>(10);
 
-  const handleAlgorithmChange = (event: any) => {
+  const handleAlgorithmChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setSelectedAlgorithm(event.target.value);
   };
 
@@ -29,45 +32,44 @@ const SortingVisualizer = () => {
     // need to run this function when sort is true and i need to disable shuffle and set it to false;
     const copy = [...numberArray];
 
+    setShuffleDisabled(true);
+    setSortDisabled(true);
+
     switch (selectedAlgorithm) {
       case "bubble":
-        await bubbleSort(copy);
+        await bubbleSort(copy, speed);
         break;
       case "insertion":
-        await insertionSort(copy);
+        await insertionSort(copy, speed);
         break;
       case "merge":
         await mergeSort(copy, 0, copy.length - 1);
         break;
     }
+    setShuffleDisabled(false);
+    setSortDisabled(false);
   };
 
   const handleNewArray = () => {
     newArray();
   };
 
-  const animateBubbleSort = (swaps: number[][]) => {
-    setSortDisabled(true);
-    setShuffleDisabled(true);
-    if (swaps.length == 0) {
-      setShuffleDisabled(false);
-      setSortDisabled(false);
-      return;
-    }
-    const [i, j] = swaps.shift() ?? [0, 0];
-
-    [numberArray[i], numberArray[j]] = [numberArray[j], numberArray[i]];
-    setTimeout(function () {
-      animateBubbleSort(swaps);
-    }, speed);
-  };
-
   const newArray = () => {
+    const arrayDiv = document.getElementById("container");
+    if (!arrayDiv) return;
+
+    const arrayBars = arrayDiv.querySelectorAll<HTMLDivElement>(".bar");
+
+    for (let i = 0; i < arrayBars.length; i++) {
+      arrayBars[i].style.backgroundColor = "";
+    }
+
     const newArray = randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max, bars);
     setNumberArray(newArray);
+    clearMemoized();
   };
 
-  const handleSpeedChange = (event: any) => {
+  const handleSpeedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const invertedValue = parseInt(event.target.value);
     setSpeed(100 - invertedValue);
   };
@@ -120,7 +122,7 @@ const SortingVisualizer = () => {
                 <div
                   key={i}
                   style={{ height: `${num - 2}px` }}
-                  className="inline-block w-[20px] mr-[1px] bg-blue-500 bar"
+                  className="inline-block w-[5px] mr-[1px] bg-blue-500 bar"
                 ></div>
               ))}
             </div>

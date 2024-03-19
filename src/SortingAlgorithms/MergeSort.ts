@@ -1,17 +1,4 @@
-// function to generate array
-
-// function to map over array and display it.
-// changing colour depending if its comparison or swapping or sorted
-
-// merge sort recursive algorithm
-
-// mergesrt helper function
-
-//function to start sorting
-
-//function called sleep to delay execution, coould just use setTimeout instead
-
-import { displayArray } from "../utils/displayArray";
+import { displayArray } from "../utils/displayBubbleSort";
 import { sleep } from "../utils/sleep";
 
 async function merge(

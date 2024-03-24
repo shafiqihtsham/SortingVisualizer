@@ -6,11 +6,12 @@
 
 - Bubble Sort
 - Insertion Sort
+- Merge Sort
+- Quicksort
 
 ## Todo : 
 
-- Merge Sort
-- Quicksort
+- Heap Sort
 
 ## Not to do: 
 

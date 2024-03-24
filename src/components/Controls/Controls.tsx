@@ -32,6 +32,9 @@ const Controls = (props:ControlsProps) => {
             <option value="quick">
               Quicksort
             </option>
+            <option value="heap">
+              Heapsort
+            </option>
           </select>
           <button
             className="minecraft-btn sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4 disabled:cursor-not-allowed disabled:text-gray-400"

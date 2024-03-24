@@ -6,17 +6,25 @@ async function insertionSort(array: number[], speed: number): Promise<void> {
 
   for (let i = 0; i < array.length; i++) {
     let j = i;
+    displayArray(array, [j - 1, j], [], []);
+    await sleep(speed);
     while (j > 0 && array[j - 1] > array[j]) {
       // Highlight the elements being compared
-      displayArray(array,[j-1, j],[],[])
-      await sleep(speed)
+      displayArray(array, [j - 1, j], [], []);
+      await sleep(speed);
 
       // Swap the elements
       const temp = array[j];
       array[j] = array[j - 1];
       array[j - 1] = temp;
+
+      displayArray(array, [], [], [j, j - 1]);
+      await sleep(speed);
+
       j--;
     }
+    displayArray(array, [], [i], []);
+    await sleep(speed);
   }
 
   // Display final state of the array after sorting

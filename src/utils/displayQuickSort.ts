@@ -20,9 +20,8 @@ export function displayArray(
     // Update the background color based on the state
     if (compared.includes(index)) {
       bar.style.backgroundColor = "green"; // Color for comparisons
-    } else if (memoizedSorted.includes(index) && !swapped.includes(index)) {
-      bar.style.backgroundColor = "cyan"; // Color for sorted elements
-      sorted.push(index); // Update memoized sorted array
+    } else if (memoizedSorted.includes(index) || sorted.includes(index)) {
+      bar.style.backgroundColor = "cyan"; // Color for sorted elements (memoized)
     } else if (swapped.includes(index)) {
       bar.style.backgroundColor = "red"; // Color for elements being swapped
     } else {

@@ -29,7 +29,7 @@ const Controls = (props:ControlsProps) => {
             <option value="merge">
               Merge Sort
             </option>
-            <option disabled={true} value="quicksort">
+            <option value="quick">
               Quicksort
             </option>
           </select>

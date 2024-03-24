@@ -5,6 +5,7 @@ import { bubbleSort } from "../../SortingAlgorithms/BubbleSort";
 import { insertionSort } from "../../SortingAlgorithms/InsertionSort";
 import { mergeSort } from "../../SortingAlgorithms/MergeSort";
 import { clearMemoized } from "../../utils/displayBubbleSort";
+import { quickSort } from "../../SortingAlgorithms/QuickSort";
 
 const ARRAY_LIMIT = {
   min: 10,
@@ -43,7 +44,10 @@ const SortingVisualizer = () => {
         await insertionSort(copy, speed);
         break;
       case "merge":
-        await mergeSort(copy, 0, copy.length - 1);
+        await mergeSort(copy, 0, copy.length - 1, speed);
+        break;
+      case "quick":
+        await quickSort(copy, 0, copy.length - 1, speed);
         break;
     }
     setShuffleDisabled(false);

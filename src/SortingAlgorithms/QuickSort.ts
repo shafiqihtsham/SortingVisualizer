@@ -14,7 +14,7 @@ async function partition(
     if (array[j] < pivot) {
       i++;
       [array[i], array[j]] = [array[j], array[i]]; // Swap array[i] and array[j]
-      displayArray(array, [], [j], [i]);
+      displayArray(array, [], [], [i]);
       await sleep(speed);
     }
   }

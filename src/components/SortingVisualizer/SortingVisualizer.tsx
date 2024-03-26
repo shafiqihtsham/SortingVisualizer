@@ -23,7 +23,7 @@ const SortingVisualizer = () => {
   const [speed, setSpeed] = useState<number>(50);
   const [shuffleDisabled, setShuffleDisabled] = useState<boolean>(false);
   const [sortDisabled, setSortDisabled] = useState<boolean>(false);
-  const [bars, setBars] = useState<number>(10);
+  const [bars, setBars] = useState<number>(50);
 
   const handleAlgorithmChange = (
     event: React.ChangeEvent<HTMLSelectElement>

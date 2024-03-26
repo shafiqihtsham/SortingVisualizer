@@ -21,7 +21,7 @@ export function displayArray(
     if (compared.includes(index)) {
       bar.style.backgroundColor = "green"; // Color for comparisons
     } else if (memoizedSorted.includes(index) || sorted.includes(index)) {
-      bar.style.backgroundColor = "cyan"; // Color for sorted elements (memoized)
+      bar.style.backgroundColor = "orange"; // Color for sorted elements (memoized)
     } else if (swapped.includes(index)) {
       bar.style.backgroundColor = "red"; // Color for elements being swapped
     } else {

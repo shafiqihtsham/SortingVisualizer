@@ -17,16 +17,23 @@ async function merge(
 
   while (i < leftArray.length && j < rightArray.length) {
     if (leftArray[i] <= rightArray[j]) {
-
+      displayArray(array, [start + i, middle + 1 + j], [], []);
+      await sleep(speed);
       array[k] = leftArray[i];
+      displayArray(array, [], [], [k]);
+      await sleep(speed);
       i++;
     } else {
+      displayArray(array, [start + i, middle + 1 + j], [], []);
+      await sleep(speed);
       array[k] = rightArray[j];
+      displayArray(array, [], [], [k]);
+      await sleep(speed);
       j++;
     }
-    displayArray(array, [start + i, middle + 1 + j], [], [k]);
-    await sleep(speed);
+    displayArray(array, [], [k]);
     k++;
+    displayArray(array, [], [k]);
   }
 
   while (i < leftArray.length) {

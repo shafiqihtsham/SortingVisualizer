@@ -20,8 +20,8 @@ export function displayArray(
     // Update the background color based on the state
     if (compared.includes(index)) {
       bar.style.backgroundColor = "green"; // Color for comparisons
-    } else if (memoizedSorted.includes(index) || sorted.includes(index)) {
-      bar.style.backgroundColor = "cyan"; // Color for sorted elements (memoized)
+    } else if (memoizedSorted.includes(index)) {
+      bar.style.backgroundColor = "orange"; // Color for sorted elements (memoized)
     } else if (swapped.includes(index)) {
       bar.style.backgroundColor = "red"; // Color for elements being swapped
     } else {
@@ -33,6 +33,6 @@ export function displayArray(
   memoizedSorted = memoizedSorted.concat(sorted);
 }
 
-export function clearMemoized() {
+export function clearMemoizedValues() {
   memoizedSorted = [];
 }

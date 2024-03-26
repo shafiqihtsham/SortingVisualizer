@@ -5,6 +5,7 @@ import { bubbleSort } from "../../SortingAlgorithms/BubbleSort";
 import { insertionSort } from "../../SortingAlgorithms/InsertionSort";
 import { mergeSort } from "../../SortingAlgorithms/MergeSort";
 import { clearMemoized } from "../../utils/displayBubbleSort";
+import { clearMemoizedValues } from "../../utils/displayMergeSort";
 import { quickSort } from "../../SortingAlgorithms/QuickSort";
 import { heapSort } from "../../SortingAlgorithms/HeapSort";
 
@@ -18,7 +19,7 @@ const SortingVisualizer = () => {
   const [numberArray, setNumberArray] = useState(() =>
     randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max, ARRAY_LIMIT.length)
   );
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>("bubble");
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<string>("merge");
   const [speed, setSpeed] = useState<number>(50);
   const [shuffleDisabled, setShuffleDisabled] = useState<boolean>(false);
   const [sortDisabled, setSortDisabled] = useState<boolean>(false);
@@ -75,6 +76,7 @@ const SortingVisualizer = () => {
     const newArray = randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max, bars);
     setNumberArray(newArray);
     clearMemoized();
+    clearMemoizedValues();
   };
 
   const handleSpeedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,7 +124,7 @@ const SortingVisualizer = () => {
         <div className="w-full flex justify-center mb-8">
           <div className="m-auto inline-block justify-center">
             <div
-              className="max-w-full flex items-end select-none border"
+              className=""
               id="container"
               style={{ height: `${ARRAY_LIMIT.max}px` }}
             >

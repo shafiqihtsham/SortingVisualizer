@@ -27,12 +27,6 @@ body, html {
   outline: 2px solid white;
 }
 
-#container {
-  background-image:url("/image.webp");
-  font-family: "Minecraftia";
-  outline-color: #aaa #565656 #565656 #aaa;
-  outline: 5px solid;
-}
 
 /*********** Baseline, reset styles ***********/
 input[type="range"] {

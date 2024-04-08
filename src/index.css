@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html {
-  @apply bg-[url("/minecraft-background.webp")] bg-cover min-h-screen min-w-full;
+  @apply bg-[url("assets/minecraft-background.webp")] bg-cover min-h-screen min-w-full;
 }
 
 @font-face {

@@ -2,7 +2,8 @@
 
 [Available Here](https://shafiqihtsham.github.io/SortingVisualizer/)
 
-![image](https://github.com/shafiqihtsham/SortingVisualizer/assets/108529942/2c3a5e89-2ec4-47b8-adfc-530838d0a519)
+![image](https://github.com/shafiqihtsham/SortingVisualizer/assets/108529942/f1286f61-8dfb-4ebe-97d1-3dc1ae26c929)
+
 
 
 ### Current algorithms : 

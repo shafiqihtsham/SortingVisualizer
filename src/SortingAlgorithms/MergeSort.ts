@@ -1,4 +1,4 @@
-import { displayArray } from "../utils/displayMergeSort";
+import { displayMergeSort } from "../utils/displayAlgorithm";
 import { sleep } from "../utils/sleep";
 
 async function merge(
@@ -17,28 +17,28 @@ async function merge(
 
   while (i < leftArray.length && j < rightArray.length) {
     if (leftArray[i] <= rightArray[j]) {
-      displayArray(array, [start + i, middle + 1 + j], [], []);
+      displayMergeSort(array, [start + i, middle + 1 + j], [], []);
       await sleep(speed);
       array[k] = leftArray[i];
-      displayArray(array, [], [], [k]);
+      displayMergeSort(array, [], [], [k]);
       await sleep(speed);
       i++;
     } else {
-      displayArray(array, [start + i, middle + 1 + j], [], []);
+      displayMergeSort(array, [start + i, middle + 1 + j], [], []);
       await sleep(speed);
       array[k] = rightArray[j];
-      displayArray(array, [], [], [k]);
+      displayMergeSort(array, [], [], [k]);
       await sleep(speed);
       j++;
     }
-    displayArray(array, [], [k]);
+    displayMergeSort(array, [], [k]);
     k++;
-    displayArray(array, [], [k]);
+    displayMergeSort(array, [], [k]);
   }
 
   while (i < leftArray.length) {
     array[k] = leftArray[i];
-    displayArray(array, [], [], [k]);
+    displayMergeSort(array, [], [], [k]);
     await sleep(speed);
     i++;
     k++;
@@ -46,7 +46,7 @@ async function merge(
 
   while (j < rightArray.length) {
     array[k] = rightArray[j];
-    displayArray(array, [], [], [k]);
+    displayMergeSort(array, [], [], [k]);
     await sleep(speed);
     j++;
     k++;

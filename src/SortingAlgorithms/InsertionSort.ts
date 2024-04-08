@@ -1,4 +1,4 @@
-import { displayArray } from "../utils/displayInsertionSort";
+import { displayInsertionSort } from "../utils/displayAlgorithm";
 import { sleep } from "../utils/sleep";
 
 async function insertionSort(array: number[], speed: number): Promise<void> {
@@ -6,11 +6,11 @@ async function insertionSort(array: number[], speed: number): Promise<void> {
 
   for (let i = 0; i < array.length; i++) {
     let j = i;
-    displayArray(array, [j - 1, j], [], []);
+    displayInsertionSort(array, [j - 1, j], [], []);
     await sleep(speed);
     while (j > 0 && array[j - 1] > array[j]) {
       // Highlight the elements being compared
-      displayArray(array, [j - 1, j], [], []);
+      displayInsertionSort(array, [j - 1, j], [], []);
       await sleep(speed);
 
       // Swap the elements
@@ -18,17 +18,17 @@ async function insertionSort(array: number[], speed: number): Promise<void> {
       array[j] = array[j - 1];
       array[j - 1] = temp;
 
-      displayArray(array, [], [], [j, j - 1]);
+      displayInsertionSort(array, [], [], [j, j - 1]);
       await sleep(speed);
 
       j--;
     }
-    displayArray(array, [], [i], []);
+    displayInsertionSort(array, [], [i], []);
     await sleep(speed);
   }
 
   // Display final state of the array after sorting
-  displayArray(array);
+  displayInsertionSort(array);
 }
 
 export { insertionSort };

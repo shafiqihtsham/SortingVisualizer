@@ -1,13 +1,12 @@
 import { useState } from "react";
-import Slider from "../Slider/Slider";
-import Controls from "../Controls/Controls";
 import { bubbleSort } from "../../SortingAlgorithms/BubbleSort";
 import { insertionSort } from "../../SortingAlgorithms/InsertionSort";
 import { mergeSort } from "../../SortingAlgorithms/MergeSort";
-import { clearMemoized } from "../../utils/displayBubbleSort";
-import { clearMemoizedValues } from "../../utils/displayMergeSort";
 import { quickSort } from "../../SortingAlgorithms/QuickSort";
 import { heapSort } from "../../SortingAlgorithms/HeapSort";
+import { clearMemoized } from "../../utils/displayAlgorithm";
+import Slider from "../Slider";
+import Controls from "../Controls";
 
 const ARRAY_LIMIT = {
   min: 10,
@@ -37,6 +36,7 @@ const SortingVisualizer = () => {
 
     setShuffleDisabled(true);
     setSortDisabled(true);
+    clearMemoized();
 
     switch (selectedAlgorithm) {
       case "bubble":
@@ -59,10 +59,6 @@ const SortingVisualizer = () => {
     setSortDisabled(false);
   };
 
-  const handleNewArray = () => {
-    newArray();
-  };
-
   const newArray = () => {
     const arrayDiv = document.getElementById("container");
     if (!arrayDiv) return;
@@ -71,12 +67,13 @@ const SortingVisualizer = () => {
 
     for (let i = 0; i < arrayBars.length; i++) {
       arrayBars[i].style.backgroundColor = "";
+      arrayBars[i].style.backgroundImage = "";
+
     }
 
     const newArray = randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max, bars);
     setNumberArray(newArray);
     clearMemoized();
-    clearMemoizedValues();
   };
 
   const handleSpeedChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,7 +110,7 @@ const SortingVisualizer = () => {
       <section>
         <Controls
           handleAlgorithmChange={handleAlgorithmChange}
-          handleNewArray={handleNewArray}
+          handleNewArray={newArray}
           handleSort={handleSort}
           selectedAlgorithm={selectedAlgorithm}
           shuffleDisabled={shuffleDisabled}
@@ -124,15 +121,17 @@ const SortingVisualizer = () => {
         <div className="w-full flex justify-center mb-8">
           <div className="m-auto inline-block justify-center">
             <div
-              className=""
+              className="flex flex-row items-end"
               id="container"
-              style={{ height: `${ARRAY_LIMIT.max}px` }}
+              style={{
+                height: `${ARRAY_LIMIT.max}px`,
+              }} // here
             >
               {numberArray.map((num, i) => (
                 <div
                   key={i}
                   style={{ height: `${num - 2}px` }}
-                  className="inline-block w-[5px] mr-[1px] bg-blue-500 bar"
+                  className="inline-block w-[3px] mr-[1px] bg-blue-500 bar"
                 ></div>
               ))}
             </div>
@@ -141,7 +140,7 @@ const SortingVisualizer = () => {
       </section>
       <section className="flex flex-col gap-6 items-center mb-5">
         <button
-          className="hidden sm:block minecraft-btn sm:w-32 md:w-40 lg:w-64 text-center text-white truncate p-1 border-2 border-b-4 disabled:cursor-not-allowed disabled:text-gray-400"
+          className="hidden sm:block w-[16rem] minecraft-btn lg:w-64 text-center text-white truncate p-1 border-2 border-b-4 disabled:cursor-not-allowed disabled:text-gray-400"
           onClick={handleBarsChange}
           disabled={shuffleDisabled}
         >

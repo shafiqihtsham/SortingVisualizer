@@ -97,6 +97,16 @@ const SortingVisualizer = () => {
       newBars = bars + 50;
     }
 
+    const arrayDiv = document.getElementById("container");
+    if (!arrayDiv) return;
+
+    const arrayBars = arrayDiv.querySelectorAll<HTMLDivElement>(".bar");
+
+    for (let i = 0; i < arrayBars.length; i++) {
+      arrayBars[i].style.backgroundColor = "";
+      arrayBars[i].style.backgroundImage = "";
+    }
+
     const newArray = randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max, newBars);
 
     setBars(newBars);

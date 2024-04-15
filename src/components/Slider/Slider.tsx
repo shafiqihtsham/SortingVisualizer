@@ -1,6 +1,12 @@
+import sound from "/click.mp4"
+
 interface SliderProps {
   handleSpeedChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   speed: number;
+}
+
+function play(){
+  new Audio(sound).play();
 }
 
 const Slider = (props: SliderProps) => {
@@ -12,6 +18,7 @@ const Slider = (props: SliderProps) => {
         min={0}
         max={100}
         onChange={props.handleSpeedChange}
+        onMouseUp={play}
         className="absolute h-[40px] sm:min-w-64 w-[12rem] disabled:cursor-not-allowed disabled:text-gray-400"
       />
       <div className="relative bottom-[-8px] select-none">

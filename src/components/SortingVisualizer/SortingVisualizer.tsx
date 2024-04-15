@@ -7,6 +7,7 @@ import { heapSort } from "../../SortingAlgorithms/HeapSort";
 import { clearMemoized } from "../../utils/displayAlgorithm";
 import Slider from "../Slider";
 import Controls from "../Controls";
+import sound from "/click.mp4";
 
 const ARRAY_LIMIT = {
   min: 10,
@@ -24,14 +25,19 @@ const SortingVisualizer = () => {
   const [sortDisabled, setSortDisabled] = useState<boolean>(false);
   const [bars, setBars] = useState<number>(50);
 
+  function play() {
+    new Audio(sound).play();
+  }
+
   const handleAlgorithmChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
+    play();
     setSelectedAlgorithm(event.target.value);
   };
 
   const handleSort = async () => {
-    // need to run this function when sort is true and i need to disable shuffle and set it to false;
+    play();
     const copy = [...numberArray];
 
     setShuffleDisabled(true);
@@ -60,6 +66,7 @@ const SortingVisualizer = () => {
   };
 
   const newArray = () => {
+    play();
     const arrayDiv = document.getElementById("container");
     if (!arrayDiv) return;
 
@@ -68,7 +75,6 @@ const SortingVisualizer = () => {
     for (let i = 0; i < arrayBars.length; i++) {
       arrayBars[i].style.backgroundColor = "";
       arrayBars[i].style.backgroundImage = "";
-
     }
 
     const newArray = randomIntArray(ARRAY_LIMIT.min, ARRAY_LIMIT.max, bars);
@@ -82,6 +88,7 @@ const SortingVisualizer = () => {
   };
 
   const handleBarsChange = () => {
+    play();
     let newBars;
 
     if (bars >= 150) {

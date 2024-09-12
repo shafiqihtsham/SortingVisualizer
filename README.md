@@ -63,11 +63,3 @@
   </tr>
 </tbody>
 </table>
-
-## Todo : 
-
-- Radix Sort
-
-## Not to do: 
-
-- Add sound (yuck)
